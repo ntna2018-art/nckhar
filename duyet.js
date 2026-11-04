@@ -16,10 +16,7 @@ function tSteps(k){const s=[],out=[],O=OR[k];if(!root)return s;
 function sSteps(x){const s=[],out=[],P=(n,note,res)=>s.push({t:'path',cur:n?n.id:null,out:[...out],note,res});   // tìm theo thứ tự duyệt trước
   for(const n of pre()){out.push(n.id);if(n.v==x){P(n,'Tìm thấy '+n.v,'ok');return s}P(n,n.v+' ≠ '+x+' → tìm tiếp')}
   P(null,'Duyệt hết cây → không tìm thấy','no');return s}
-function remove(t){const p=par(t);let rep;
-  if(!t.l||!t.r)rep=t.l||t.r;
-  else{let sp=t,s=t.r;while(s.l){sp=s;s=s.l}if(sp!==t){sp.l=s.r;s.r=t.r}s.l=t.l;rep=s}
-  if(!p)root=rep;else if(p.l===t)p.l=rep;else p.r=rep}
+function remove(t){bstRemove(t)}   // dùng chung quy tắc xóa 3 trường hợp (nút kế nhiệm) định nghĩa trong kham-pha.js
 // ---- điều khiển phát ----
 function stopT(){clearInterval(S.tm);S.run=0}
 function clear(){stopT();S.steps=[];S.i=-1}
@@ -29,5 +26,4 @@ function go(i){S.i=Math.max(-1,Math.min(S.steps.length-1,i));const st=S.steps[S.
 function startT(){stopT();S.run=1;S.tm=setInterval(()=>go(S.i+1),950/S.speed);go(S.i+1)}
 function setSteps(s,k){clear();S.steps=s;S.ck=k||null;if(s.length)startT();else refresh()}
 const show=(ids,note)=>setSteps([{t:'path',cur:ids[0],out:ids,note}]);
-const refresh=()=>{try{sync()}catch(e){showErr('Lỗi vẽ cây 3D: '+(e&&e.message||e))}ui()};
-
+const refresh=()=>{try{sync()}catch(e){showErr(e,'khi vẽ cây 3D')}ui()};
