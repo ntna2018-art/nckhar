@@ -15,7 +15,7 @@ const rn=a=>a[Math.random()*a.length|0],sh=a=>[...a].sort(()=>Math.random()-.5);
 // ================= DỮ LIỆU CÂY (chính là cây vừa quét) =================
 let nid=1,root=null;
 const mk=(v,o)=>Object.assign({v},o,{id:nid++,l:null,r:null});
-const MODES={kham:{n:'Khám phá',ops:'ad undo redo search upd inp lay ana'},duyet:{n:'Duyệt cây',ops:'search lay'},choi:{n:'Trò chơi',ops:'game'}};
+const MODES={kham:{n:'Khám phá',ops:'ad undo redo search upd inp img lay ana'},duyet:{n:'Duyệt cây',ops:'search img lay'},choi:{n:'Trò chơi',ops:'game'}};
 let TR={off:0,i:0};try{TR.off=localStorage.getItem('arbt_tour')=='1'?1:0}catch(e){}
 const S={mode:'kham',notes:true,view:'tree',sel:null,kind:'pre',steps:[],i:-1,run:0,tm:0,speed:1,bright:1,size:1,snd:true,orig:null,yaw:0,pitch:0,zoom:1,grow:0,spin:null,px:0,py:0,roll:0,mv:'orbit',dm:'rot',showCode:true,lang:'gia',ck:null};
 const kf=()=>'v';
@@ -60,7 +60,7 @@ function adopt(tr,C,M){                            // kết quả nhận diện 
 function afterScan(){                          // sau khi xác nhận số: chốt dữ liệu cây
   const seen=new Set();let fix=0;inord().forEach(n=>{while(seen.has(n.v)){n.v++;fix++}seen.add(n.v)});
   S.orig=clone(root);clear();refresh();
-  toast(fix?'⚠ Có số trùng nên đã tự đổi — kiểm tra bằng 🔢 Nhập số các nút':'✅ Đã kiểm tra & cố định cây — dùng các công cụ để thao tác')}
+  toast(fix?'⚠ Có số trùng nên đã tự đổi — kiểm tra ở ⌨ Nhập / Khởi tạo cây → 🔢 Nhập / sửa số các nút':'✅ Đã kiểm tra & cố định cây — dùng các công cụ để thao tác')}
 
 // ================= THƯ VIỆN HÌNH CÂY TRONG SÁCH (so khớp hình quét với hình mẫu) =================
 // Mỗi mẫu: tên + chuỗi cây v(trái,phải), con trống để trống, None = nút giả. Muốn thêm hình mới: thêm một dòng vào LIB.
@@ -98,4 +98,3 @@ function adoptLib(L,tr,C,M){                                        // dựng c�
   const md=a=>a.sort((x,y)=>x-y)[a.length>>1]||.1;
   TL={r:md(rs)*.97,dy:Math.max(md(dys),md(rs)*2.4),dx:Math.max(md(dxs),md(rs)*1.4)};
   S.sel=null;S.view='tree';S.orig=clone(root);clear();refresh()}
-
